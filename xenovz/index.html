@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<meta charset="utf-8" />
+
+<title>OpenVZ on Xen platform</title>
+
+<meta name="description" content="OpenVZ on Xen platform">
+<meta name="author" content="Andrew Druchenko" />
+
+<link rel="stylesheet" href="./css/font.css" />
+<link rel="stylesheet" href="./css/default.css" />
+<link rel="stylesheet" href="./css/sunburst.css">
+
+<div id="impress">
+
+
+  <div id="start" class="step">
+	<h1 style="padding-bottom:15px;">OpenVZ на платформе Xen</h1>
+    <img src="./img/xen_vs_openvz.png" style="float:left">
+    
+<p style="font-size:0.7em; text-align:right; position:relative;top:-150px;right:-500px;width:350px;">
+	  <a href="http://kyivpy.org.ua/">kyivpy #7</a> / Jun 9, 2012 <br/>
+      Kiev, Ukraine
+    </p>
+
+  </div>
+
+  <div id="intro" class="step">
+    <h2>О чем это?</h2>	
+   <p>Виртуализация&nbsp;&mdash; это изоляция вычислительных процессов(Software) и ресурсов(CPU/Storage) друг от друга. </p>
+  </div>
+
+  
+  <div id="xen-overview" class="step">
+  	<h2>Xen</h2>
+	<p>Кроссплатформенный гипервизор: </p>
+    <ul>
+	   <li> Паравиртуализация (mod kernel for guest OS) </li>
+	   <li> Аппаратная виртуализация (Intel VT и AMD-V)</li>
+	</ul>
+  </div>
+  
+
+  <div id="amazon-ec2-logo" class="step">
+	 <img src="./img/aws_logo.png" style="margin-left:-100px;">
+  </div>
+
+  
+  <div id="amazon-ec2" class="step">
+	 <h2>Amazon EC2</h2>
+	<p>Amazon Elastic Compute Cloud&nbsp;&mdash; веб-сервис, который предоставляет вычислительные мощности в облаке.
+	 </p>
+	
+  </div>
+
+  <div id="openvz-logo" class="step">
+      <img src="./img/OpenVZ-logo.png" style="margin-left:-100px;">
+ </div>
+
+  <div id="openvz" class="step">
+   <h2>OpenVZ</h2>
+    <p>Виртуализация на уровне операционной системы, которая базируется на ядре Linux: </p>
+    <ul>
+	   <li>Высокая прозиводительность (&minus; 1-3%)</li>
+	   <li>Files, Users&amp;groups, process tree, network, devices, IPC objects, blackjack&hellip;</li>
+	</ul>
+  </div>
+
+  <div id="openvz-minus" class="step">
+   <h2>Минусы OpenVZ</h2>
+    <ul>
+	   	<li>Guest OS&nbsp;&mdash; только Линукс</li>
+	    <li>Такое же ядро как у host OS </li>
+	    <li>VPN только PPTP/L2TP и TUN/TAP (Что это?!)</li>
+	    <li>IPsec не поддерживается (ой, пичалька!) </li>
+	</ul>
+  </div>
+  
+
+  <div id="what-for" class="step">
+	  <h2>Зачем это надо?</h2>
+  </div>
+  
+  <div id="what-for2" class="step">
+	  <img src="./img/bear-complex2.jpg" height="600px"/>
+  </div>
+
+  
+  <div id="areas-of-application" class="step">
+	 <ul>
+		 <li>&laquo;Черный ящик&raquo; для тестеров</li>
+		 <li>Песочница для разработчиков</li>
+		 <li>Удешевление для стейкхолдеров</li>
+	</ul>
+  </div>
+
+  
+  <div id="ec2-advantages" class="step">
+	<h2>Преимущества EC2 </h2> 
+	<ul>
+		 <li>Лидер на рынке cloud-провайдеров</li>
+		 <li>Тонны 2-х/3-х буквенных сервисов</li>
+		 <li><a href="http://aws.typepad.com/aws/2010/07/use-your-own-kernel-with-amazon-ec2.html">Возможность грузить кастомные ядра</a> (2010/07 !)</li>
+	</ul>
+  </div>
+  
+  <div id="openvz-advantages" class="step">
+	<h2>Преимущества OpenVZ </h2> 
+	<ul>
+		 <li>Виртуализация уровня ОС (то что нам надо!)</li>
+		 <li>Отсутствие проблемы <a href="http://wiki.openvz.org/VSwap">нулевого свопа</a> (RHEL6 ядра >=2.6.32)</li>
+		 <li><a href="http://en.wikipedia.org/wiki/Operating_system-level_virtualization#Implementations">Почти всё виртуализируется</a></li>
+	</ul>
+  </div>
+
+
+
+  <div id="merge-experiment" class="step">
+	<table style="margin-left:-200px;">
+		<tr>
+			<td> <img src="./img/ec2_logo.png"></td> 
+			<td> <span style="font-size:500%;">&plus;</span> </td>
+			<td> <img src="./img/openvz_small.png"/></td>
+			<td> <span style="font-size:500%;">=?</span> </td>
+		</tr>
+	</table>
+  </div>
+  
+
+  <div id="openvz-installation-specifics" class="step">
+    <h2>Cтавим OpenVZ на EC2 </h2>
+	<ul>
+		 <li>Выбрать Fedora Core, RHEL/CentOS, Debian в качестве Host OS (rpm based) </li>
+		 <li><a href="http://wiki.openvz.org/Quick_installation">Установить новое ядро и управляющие vzctl/vzquota</a></li>
+		 <li>Reboot &amp;&amp; profit !</li>
+	</ul>
+  </div>
+
+  <div id="pv-grub" class="step">
+	 <h2> pv-grub &amp; custom kernels </h2>
+	 <p><a href="http://wiki.xensource.com/xenwiki/PvGrub">ParaVirtualized GRand Unified Bootloader</a> </p>
+	 <ul>
+		<li>RHEL/CentOS >=6 для новой модели памяти (VSwap) </li>
+		<li>Специальный AMI (Amazon Machine Image) c поддержкой pv-grub </li>				
+	 </ul>
+  </div> 
+ 
+  <div id="openvz-xen-kernel" class="step">
+	 <h2> Ядро с поддержкой Xen </h2>
+	 <ul>
+		<li>Linux mainline kernel >= 2.6.23 (26/05/2011) </li>
+		<li>Для RHEL/CentOS 6&nbsp;&mdash; подходит 2.6.32, (ovzkernel-xen/vzkernel) </li>
+		<li>Linux 3.0&nbsp;&mdash;полная поддержка </li> 
+	 </ul>
+  </div> 
+
+
+  <div id="our-experience" class="step">
+	 <h2>Ок, я всё понял<br/>&nbsp;&mdash; но где же python?!! </h2>
+  </div> 
+
+  <div id="provisioning" class="step">
+    <h2>Provisioning</h2>
+	<ul>
+		<li>Старый добрый bash </li>
+		<li>Python! </li>
+		<li>pbs&nbsp;&mdash; <a href="https://github.com/amoffat/pbs">Python subprocess wrapper</a> </li> 
+	 </ul>
+  </div>	
+ 
+
+  <div id="provisioning-sample-code" class="step">
+     <h3>pbs.py </h3>
+  	<div class="substep" style="font-size:140%;">
+<pre><code class="python">
+from pbs import ifconfig
+print ifconfig("eth0")
+</code></pre>
+<br/>
+<pre><code class="python">
+from pbs import git
+
+# resolves to "git branch -v"
+print git.branch("-v")
+</code></pre>
+
+    </div>
+  </div>
+
+  <div id="more-details" class="step">
+    <h2>Некоторые детали нашей конфигурации</h2>
+  </div>
+
+  <div id="container-list" class="step">
+	 <h3>Контейнеры</h3>
+  	<div class="substep" style="font-size:220%;">
+<pre><code><pre>
+[root@nimblevm ~]# vzlist
+      CTID      NPROC STATUS    IP_ADDR         HOSTNAME
+       db1         21 running   10.0.102.101    db1
+       db2         17 running   10.0.102.102    db2
+      app1        292 running   10.0.102.111    app1
+       tb1         40 running   10.0.102.121    tb1
+   search1         40 running   10.0.102.131    search1
+  searchc1         42 running   10.0.102.141    searchc1
+       lb1         12 running   10.0.102.151    app
+dispatcher         81 running   10.0.102.161    reg
+      slon         25 running   10.0.102.171    slon
+  dirigent         25 running   10.0.102.181    dirigent
+
+</pre>
+</code></pre>
+
+    </div>
+  </div>
+
+
+  <div id="horsepower" class="step">
+    <h3>Наш конфиг</h3>
+	<ul>
+		 <li>Host: CentOS6.x64, m2.xlarge  (17.1GB RAM, EBS volume) </li>
+		 <li>Guest: CentOS6.x64, 1-5Gb RAM/10Gb swap, CPU&nbsp;&mdash; всем поровну </li> 
+		 <li>Крутим-вертим: nginx, gunicorn, elastic search, tornado, mongodb, syslog-ng, jenkins, etc. </li> 
+	</ul>
+  </div>
+
+
+  <div id="network-tips" class="step">
+      <h3>Сетевые штуки</h3>
+       <ul>
+	      <li>Сеть внутри HostOS полностью виртуализируется: iptables, routing, etc.  </li>
+	      <li>SOCKS5 proxy&nbsp;&mdash; можно избежать сложного port-forwarding для веб-интерфейсов (jenkins)</li>
+	      <li>Можно сделать полный offline </li>
+	   </ul>
+  </div>
+
+
+  <div id="other-tips" class="step">
+      <h3>Прочие бонусы</h3>
+       <ul>
+	      <li>На VirtualBox повторяется тот же сценарий установки! </li>
+	      <li>Можно подсунуть вашему приложению почти production среду </li>
+	   </ul>
+  </div>
+
+  <div id="ovz-problems" class="step">
+      <h3>Печальки</h3>
+  	<div class="substep" style="font-size:200%;">
+<pre><code><pre>
+***** SERVER RESTARTED *****
+MongoDB starting : pid=474 port=27018 dbpath=/mnt/db/ 64-bit
+
+** WARNING: You are running in OpenVZ. This is known to be broken!!!
+	
+db version v2.0.5, pdfile version 4.5
+git version: 1bb4de4630302fad8af53824ca4f627db490b753
+</pre>
+</code></pre>
+
+    </div>
+  </div>
+
+
+
+  <div id="conclusion" class="step">
+      <h2>Выводы</h2>
+  </div>
+
+ 
+<style>
+#conclusion-p1 table td {border:1px solid white;padding:20px;}
+#conclusion-p1 table {border-collapse:collapse;}
+</style>
+  <div id="conclusion-p1" class="step">
+      <h2>Уменьшение стоимости</h2>
+
+	 <table> 
+		<tr> 
+			<th>ДО</th>
+			<th>ПОСЛЕ </th>
+		</tr>
+		
+		<tr> 
+			<td>~ 3400$ / month </td>
+			<td>~ 980$ / month </td>
+		</tr>
+		
+		<tr>
+			<td> 1 Staging (12 app / 11 db) </td>
+			<td> 7 Vboxes </td>
+		</tr>
+		
+	  </table>
+	
+  </div>
+
+  <div id="conclusion-p2" class="step">
+      <h2>Моделирование production окружения</h2>  
+  </div> 
+
+  <div id="deploy-queue" class="step">
+	 <h3>Очередь на деплой</h3>
+	<img src="./img/queue.jpg" height="550px">
+  </div>
+  
+  <div id="deploy-problems" class="step">
+      <ul>
+	    <li>Каждому&nbsp;&mdash; по своей песочнице</li>
+	    <li>&laquo;Почти&raquo; production среда </li>
+	  </ul>  
+  </div> 
+  
+  <div id="complexity-abstraction" class="step">
+     <h2>Изоляция сложности</h2>
+  </div>
+ 
+  <div id="waltzing-with-bearz" class="step">
+	 <h3>Потанцуем?</h3>
+	 <img src="./img/waltzing_with_bear.png">
+  </div>
+ 
+  
+
+  <div id="thank-you" class="step final">
+    <h2 style="margin-top:-100px;">Спасибки!</h2>
+	<div style="font-size:140%;margin-left:250px;">
+		<p class="name">Andrew Druchenko</p>
+	    <p class="email"><a href="mailto:bananos@nimble.com">bananos@nimble.com</a></p>
+	    <br/>
+	    <p class="twitter p-a"><a href="https://twitter.com/bananoz"><img src="twitter.png" /> @bananoz</a></p>
+	    <p class="github p-a"><a href="https://github.com/bananos"><img src="github.png" /> github.com/bananos</a></p>
+	    <p><a href="http://webapp.org.ua">webapp.org.ua</a></p>
+    </div>
+
+  </div>
+
+
+  <div id="overview" class="step" data-x="3400" data-y="2000" data-scale="10"></div>
+  <div class="hint"><p>Use a spacebar or arrow keys to navigate</p></div>
+</div>
+	
+<div id="timer"></div>
+
+<script src="./js/highlight.pack.js"></script>
+<script src="./js/impress.js"></script>
+<script src="./js/default.js"></script>
+</body>
+</html>

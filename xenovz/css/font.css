@@ -1,0 +1,20 @@
+@font-face {
+  font-family: 'PT Serif Caption';
+  font-style: normal;
+  font-weight: normal;
+  src: local('PT Serif Caption'), local('PTSerif-Caption'), url('./fonts/pt-serif-caption.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Cuprum';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Cuprum'), url('./fonts/cuprum.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Didact Gothic';
+  font-style: normal;
+  font-weight: normal;
+  src: local('Didact Gothic'), local('DidactGothic'), url('./fonts/didact_gothic.woff') format('woff');
+}

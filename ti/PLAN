@@ -1,0 +1,75 @@
+jstalks  plan:
+
+1) Titanoum mobile
+
+2) iPhone/Android apps in Javascript!
+
+   - Full filesystem access
+   - Internal SQLite database
+   - AJAX-alike networking
+   - JSS  css-alike styling 
+   - Built-in analytics 
+   - 300+ APIs
+   - Objective-C/Java for modules
+
+    
+3) Native approach
+     
+     http://trac.webkit.org/wiki/JavaScriptCore   for iPhone
+     http://code.google.com/p/v8/  for Android
+
+4) Toolchain
+   - Titanium Studio IDE / hello Aptana
+   - Titanium SDK  / python!
+   - iOS SDK / Android SDK
+
+5) Sample code
+    - Hello world app
+    - JSS example
+ 
+
+6) Debugging 
+    Breakpoints, execution contexts
+
+    Debug shell?
+
+	•	interactive Javascript debugger,
+	•	decent Javascript code completion and syntax checking.
+	•	we do have detailed errors reported (in the terminal with the iPhone simulator and in adb with Android),
+	•	and you’ll learn back to log and dump objects using Ti.API.log() or good ol’ alert()
+
+
+ http://developer.appcelerator.com/question/125319/is-there-an-interactive-console-for-debugging#218418
+ http://philippe.elsass.me/2012/01/titanium-the-good-the-bad-and-the-ugly/
+  
+
+7) Here be Dragons
+ - IDE is buggy & slow
+ - APIs sometimes behave unexpectedly
+ - Memory leaks
+ ..
+
+
+8) Mobile Web Bonus!
+ - still in beta
+  Заставка из клипа стрыкало "Наше лето" -- geek style =)
+
+ 
+
+9) Want some Demo?  
+ ask us during coffee-break
+
+
+10) Credits
+
+ - impress.js demo by @bartaz
+ - Mariusz Nowak @medikoo 
+
+11) Credits 2 / Thank you
+
+   - Vsevolod  @murkt
+   - Andrew / @bananoz
+
+Nimble.com (insert nimble logo)
+
+ 
