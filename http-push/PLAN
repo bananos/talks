@@ -1,0 +1,84 @@
+HTTP push in a cross-domain environment
+
+1) О чем это?
+  
+   - Определения HTTP server push (http://en.wikipedia.org/wiki/Push_technology)
+   - Другие названия HTTP streaming, Comet http://en.wikipedia.org/wiki/Comet_(programming)
+   - Примеры использования -- чатики, системы уведомления, <a href="https://github.com/kanaka/websockify">пересылка картинок?</a>
+   
+2) Проблематика
+   - Зачем может быть нужен cross-domain?
+   - История same domain origin policy (http://en.wikipedia.org/wiki/Same_origin_policy)
+     CORS (http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing)
+   - SSL и проблемы self-signed сертификатов (Таблицу совместимости SSL->nonSSL, SSL->SSL)
+   
+ 
+Обзор существующих вариантов
+===============================
+ 
+3) Hidden/forever iframe  (Pushlets)  / Streaming 
+  In this technique, the server takes advantage of persistent HTTP connections and leaves the response perpetually "open" (i.e. it never terminates the response), effectively fooling the browser into continuing in "loading" mode after the initial page load would normally be complete
+  One benefit of the iframe method is that it works in every common browser. Two downsides of this technique are the lack of a reliable error handling method, and the impossibility of tracking the state of the request calling process
+  
+  http://cometdaily.com/2007/11/05/the-forever-frame-technique/
+  
+
+  
+4) XMLHttpRequest with multipart/x-mixed-replace
+   In 1995, Netscape Navigator added a feature called “server push”, which allowed servers to send new versions of an image or HTML page to that browser, as part of a multipart HTTP response (see History section, below), using the content type multipart/x-mixed-replace. Since 2004, Gecko-based browsers such as Firefox accept multipart responses to XHR, which can therefore be used as a streaming Comet transport.[12] On the server side, each message is encoded as a separate portion of the multipart response, and on the client, the callback function provided to the XHR onreadystatechange function will be called as each message arrives.
+   
+
+5) AJAX Long-Polling
+   For the most part, XMLHttpRequest long polling works like any standard use of XHR. The browser makes an asynchronous request of the server, which may wait for data to be available before responding. The response can contain encoded data (typically XML or JSON) or Javascript to be executed by the client. At the end of the processing of the response, the browser creates and sends another XHR, to await the next event. Thus the browser always keeps a request outstanding with the server, to be answered as each event occurs.
+   
+ 
+6) Script tag /JSONP long polling  
+   Ура! Кроссдоменность!
+   A long-polling Comet transport can be created by dynamically creating script elements, and setting their source to the location of the Comet server, which then sends back JavaScript (or JSONP) with some event as its payload. 
+   
+   
+7) SSE - Server Sent Events (EventSource), http://en.wikipedia.org/wiki/Server-sent_events
+   Support table: http://caniuse.com/#feat=eventsource
+
+
+8) WebSockets 
+   http://code.google.com/p/pywebsocket/wiki/WebSocketProtocolSpec
+   
+   hixie-75 
+   hybi-17 (Version 13)
+   
+   Cross-domain via special headers (for wss does not work in some browsers)
+   CORS
+   http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing
+   
+   
+9) Flash Sockets
+	Flash XMLSocket relays
+
+	This technique, used by Cbox and other chat applications, makes use of the XMLSocket object in a single-pixel Adobe Flash movie. Under the control of JavaScript, the client establishes a TCP connection to a unidirectional relay on the server. The relay server does not read anything from this socket; instead it immediately sends the client a unique identifier. Next, the client makes an HTTP request to the web server, including with it this identifier. The web application can then push messages addressed to the client to a local interface of the relay server, which relays them over the Flash socket. The advantage of this approach is that it appreciates the natural read-write asymmetry that is typical of many web applications, including chat, and as a consequence it offers high efficiency. Since it does not accept data on outgoing sockets, the relay server does not need to poll outgoing TCP connections at all, making it possible to hold open tens of thousands of concurrent connections. In this model, the limit to scale is the TCP stack of the underlying server operating system.
+   
+   
+10) Что в сухом остатке? 
+    Websockets + JSONP
+	- браузерная таблица (с учетом SSL/ self-signed сертификатов)
+	
+	
+12) Nginx-pushstream !
+    - преимущества (все готовое из коробки)
+	- недостатки (защищенные каналы придется строить самому)
+
+13) Benchmarks
+	- One-way trip: посчитать время доставки 1 сообщения через  WebSockets (нодо-клиенты), синхронизировав предварительно время.
+	  Паковать время отсылки прямо в сообщение
+	- Графики распределения процентов доставки сообщений по времени (похожие на данные ab) 
+	
+	- Отчеты ab о скорости паблишинга сообщений (HTTP POST интерфейс для паблишинга сообщений)
+	
+	- Графики зависимости Кол-во сообщений / CPU, io, mem
+	
+	http://chrismiles.livejournal.com/21720.html
+	
+	
+	 
+  
+    

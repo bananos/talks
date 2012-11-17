@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<title>HTTP push in a cross-domain environment</title>
+
+	<meta name="description" content="HTTP push in a cross-domain environment">
+	<meta name="author" content="Andrew Druchenko" />
+
+	<link rel="stylesheet" href="./css/font.css" />
+	<link rel="stylesheet" href="./css/default.css" />
+	<link rel="stylesheet" href="./css/sunburst.css">
+
+</head>
+<body>
+
+<div id="impress">
+
+  <div id="start" class="step">
+	<h1>HTTP push in a <br/>cross-domain environment</h1>
+    <img src="./img/comet-logo.png" style="float:left; width:550px;">
+    <!-- image from http://www.cometyouthhoops.com/ -->
+	
+    <p class="footer">
+	  <a href="http://kyivjs.org.ua/" style="padding:10px;font-size:140%;background: rgba(255,255,255, 0.2);">kyivjs.org.ua</a><br/>  
+	  Nov 17, 2012 <br/>
+      Kiev, Ukraine
+    </p>
+
+  </div> 
+ 
+
+  <div id="intro" class="step">
+    <h2>О чем это?</h2>	
+   <p>HTTP push &nbsp;&mdash; один из вариантов распространения контента в Интернете, когда информация поступает от 
+	   <em>сервера</em> к клиенту. </p>
+  </div>
+
+  
+  <div id="alternate-names" class="step">
+  
+	<p>Альтернативные названия: </p>
+    <ul>
+	   <li> &nbsp;HTTP streaming </li>
+	   <li><a href="http://en.wikipedia.org/wiki/Comet_(programming)">Comet</a></li>
+	</ul>	
+	 <img src="./img/ajax-comet-origin.jpg">
+	
+  </div>
+  
+
+  <div id="what-for" class="step">
+	  <h2>Зачем это надо?</h2>
+	    <ul>
+			<li>Cистемы уведомлений</li>
+			<li>Чатики (IM) </li>
+			<li><a href="https://github.com/kanaka/websockify">Пересылка картинок?!</a> </li>
+		</ul>
+  </div>
+
+  
+  <div id="cross-domain-intro" class="step">
+	 <h2>Сross-domain</h2>
+  </div>
+
+  <div id="cross-domain-what-for" class="step">
+      <h2>Зачем нужна <nobr>кросс-доменность?</nobr></h2>
+	  <ul>
+		  <li>Существующая инфраструктура или конфигурация </li>
+		  <li>Более высокая надежность </li>
+	  </ul>
+ </div>
+
+  <div id="cross-domain-problems" class="step">
+   <h2>Проблемы</h2>
+  </div>
+
+  <div id="same-origin-policy" class="step">
+   <h2><a href="http://en.wikipedia.org/wiki/Same_origin_policy">Same origin policy</a></h2>
+   <p>Как забороть?</p>
+    <ul>
+	   	<li><a href="http://en.wikipedia.org/wiki/JSONP">JSONP</a></li>
+	    <li><a href="https://developer.mozilla.org/en-US/docs/DOM/document.domain">document.domain property</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing">Cross-Origin Resource Sharing</a></li>
+		<li><a href="http://en.wikipedia.org/wiki/Cross-document_messaging">Cross-document(Web) messaging</a></li>
+		<li>&nbsp;Web proxy</li>
+	</ul>
+  </div>
+  
+  
+
+  <div id="xdp-jsonp-example" class="step">
+	<h3>JSON with padding (JSONP)</h3>	   
+   	<div class="substep" style="font-size:150%;width:1000px;margin-left:-100px;">
+<pre><code class="javascript">
+$.getJSON('m.com/?callback=?', function(data) {
+ alert(data);
+});
+
+</code></pre>
+<p style="font-size:50%;">Нюансы:</p>	
+<pre><code class="javascript">document.createElement('script');
+window.setTimeout();
+</pre></code>
+<!-- 
+http://blog.eood.cn/jsonp-library-in-plain-javascript-with-timeout
+http://adam.kahtava.com/journal/2010/03/18/the-same-origin-policy-jsonp-vs-the-documentdomain-property/
+-->	
+     </div> 
+  </div>
+  
+  
+  
+  <div id="xdp-document-domain-example" class="step">
+	 <h3>The document.domain property</h3>
+    	<div class="substep" style="font-size:150%;width:1000px;margin-left:-100px;">
+ <pre><code class="javascript">
+ document.domain = 'home.com';
+  $.get('http://my.home.com/', function(data) {
+    alert(data);
+  });
+  
+</code></pre>
+	<div style="font-size:50%;">	
+		<p>Нюансы:</p>
+		<ul>
+			<li>Только root-домены, в пределах одного протокола</li>
+			<li>По задумке, должна была быть read-only :) </li>
+			<li>Для http push не подходит в принципе</li>
+		</ul> 
+	</div>
+<!-- 
+http://adam.kahtava.com/journal/2010/03/18/the-same-origin-policy-jsonp-vs-the-documentdomain-property/
+
+For example, cooperating scripts in documents loaded from orders.example.com and catalog.example.com might set their document.domain properties to “example.com”, thereby making the documents appear to have the same origin and enabling each document to read properties of the other
+
+-->
+</div>   
+  </div>
+
+
+  <div id="xdp-cors" class="step">
+ 	 <h3><a href="http://en.wikipedia.org/wiki/Cross-Origin_Resource_Sharing">Cross-Origin Resource Sharing(CORS)</a></h3>
+     	<div class="substep" style="font-size:150%;width:1000px;margin-left:-100px;">
+ <pre><code class="css">
+  
+  <span class="keyword">Access-Control-Allow-Origin:</span> http://foo.mysite.com
+  
+ </code></pre> 
+</div>
+  <p>FF3.5+, Safari4+, Chrome3+, IE8+</p>
+  </div>
+
+  <div id="xdp-web-messaging" class="step">
+	<h3><a href="http://en.wikipedia.org/wiki/Cross-document_messaging">Cross-document(web) messaging</a></h3> 
+	
+    	<div class="substep" style="font-size:130%;width:1100px;margin-left:-150px;">
+			<span style="font-size:50%;">Document А:</span>
+ <pre><code class="javascript"> 
+var o = document.getElementsByTagName('iframe')[0];
+o.contentWindow.postMessage('Hello B', 'http://documentB.com/');
+ </code></pre>
+ <span style="font-size:50%;">Document B:</span>
+  <pre><code class="javascript"> 
+window.addEventListener('message', function(event) {
+       alert(event.data); 
+});
+  </code></pre>
+ </div>
+   
+	 <div style="font-size:100%;">
+		 <ul>
+			 <li>Для http push не подходит в принципе :)</li>
+		 </ul>
+	</div>	
+
+  </div>
+  
+  
+  
+  <div id="comet-implementations" class="step">
+	<h2>HTTP push: реализация</h2> 
+	<ul>
+		<li>Forever iframe / Streaming </li>
+		<li>multipart/x-mixed-replace </li>
+		<li>AJAX Long-Polling</li>
+		<li>Server Sent Events(SSE)</li>
+		<li>WebSockets</li>
+		<li>Flash Sockets</li>
+	</ul>
+  </div>
+
+
+  <div id="comet-forever-iframe" class="step">
+  	
+	<h3><a href="http://cometdaily.com/2007/11/05/the-forever-frame-technique/">Forever iframe / Streaming</a></h3> 
+      	<div class="substep" style="font-size:130%;width:800px;">
+			
+   <pre><code class="css">HTTP/1.1 200 OK 
+<span class="keyword">Content-Type</span>: <span class="string">text/plain</span> 
+<span class="keyword">Transfer-Encoding</span>: <span class="string">chunked</span> 
+23 
+This is the data in the first chunk 
+1A 
+and this is the second one 
+0</code></pre>
+ 
+   </div>
+  	 <div style="font-size:80%;">
+  		 <ul>
+  			 <li>HTTP/1.1 only</li>
+  			 <li>Куча хаков для браузеров</li>
+			 <li>Отслеживание состояния отсутствует</li>
+			 <li>SOP! </li>
+  		 </ul>
+  	</div>	
+	
+	<!-- 
+	http://en.wikipedia.org/wiki/Chunked_transfer_encoding
+	-->	
+  </div>
+  
+
+
+  <div id="comet-x-mixed-replace" class="step">
+    <h2> <a href="http://en.wikipedia.org/wiki/MIME#Mixed-Replace_.28experimental.29"><nobr>multipart/x-mixed-replace</nobr></a></h2>
+	<pre><code style="font-size:170%;"> 
+<span class="keyword">Content-type</span>: multipart/x-mixed-replace
+	</code></pre>
+	
+	<ul style="margin-left:-50px;">
+		<li> AJAX c периодическим <code style="color: #E28964">onreadystatechange</code> </li>
+		<li> Каждое сообщение инвалидирует предыдущее</li>
+		<li> Поддержка всех кроме IE </li>
+		<li> MJPEG и IP камеры </li>
+		<li> SOP! </li>
+	</ul>
+  </div>
+
+
+  <div id="comet-ajax-longpolling" class="step">
+	 <h2> AJAX Long-Polling </h2>
+    	<div class="substep" style="font-size:130%;width:1100px;margin-left:-150px;">
+ <pre><code class="javascript"> function waitForMsg(){
+  $.ajax({
+       type: "GET",
+       url: "/messages",
+       cache: false,
+       timeout: 50000, // 50s
+       success: function(data){ 
+  		   setTimeout(waitForMsg, 1000);
+       } 
+  });
+}</code></pre>
+ </div>	
+	
+ <p>Добавляем JSONP и получаем <nobr>cross-domain!</nobr> </p>
+  </div> 
+ 
+ 
+ 
+  <div id="comet-eventsource" class="step">
+	 <h2> <a href="https://developer.mozilla.org/en-US/docs/Server-sent_events/EventSource">Server Sent Events</a> </h2>
+ 	<pre><code class="javascript" style="font-size:140%"> 
+ var source = new EventSource('/stats');
+ 
+ source.onmessage = function (event) {
+   // process server message
+ };
+	</code></pre>
+		  
+	 <ul>
+		 <li>Односторонний</li>
+		 <li>CORS понимают не все</li>
+		 <li>Традиционно отсутствует в IE</li>
+	 </ul>
+	 <!-- 
+	 http://html5doctor.com/server-sent-events/
+	 http://caniuse.com/eventsource
+	 http://www.html5rocks.com/en/tutorials/eventsource/basics/
+	 -->
+  </div> 
+  
+
+
+  <div id="comet-websockets" class="step">
+	  <h2><a href="http://www.w3.org/TR/websockets/">WebSockets</a></h2>
+<pre><code class="javascript" style="font-size:140%;width:1000px;margin-left:-100px;">var ws = new WebSocket("ws://localhost/echo");
+ws.onopen = function() {
+  ws.send("Message to send");
+};
+		   
+ws.onmessage = function(evt) { 
+   // Message is received 
+};
+</code></pre>
+
+	<ul style="font-size:80%;margin-left:-100px;">
+	 <li>Full-duplex!</li>
+	 <li>CORS!</li>
+	 <li>IE10+, Chrome14+, Firefox6+, Safari6+</li>
+	 <li>hixie vs. hybi protocols</li>
+	</ul>
+
+<!-- 
+	http://caniuse.com/websockets
+	http://tools.ietf.org/html/rfc6455 (Version 13, hybi-17)
+    hixie-75 
+    hybi-17 (Version 13)
+-->
+	  
+  </div> 
+
+
+  <div id="comet-flash-sockets" class="step">
+    <h2>FlashSockets</h2>
+	
+	<img src="./img/flash-logo.png" style="width:300px;float:left;padding-right:30px;"/>
+	<ul>
+		<li>Flash XMLSocket relay </li>
+		<li>Uni-directional</li>
+		<li>CORS</li>
+	</ul>
+	
+  </div>	
+  
+  <div id="note-on-ssl" class="step">
+	  <h2>A note on SSL </h2>
+	  <ul>
+		  <li>Self-signed сертификаты не работают</li>
+		  <li>SSL &larr;&rarr; non-SSL</li>
+		  <li>CORS ничего не гарантирует</li>
+	  </ul>
+	  
+  </div>
+ 
+ <div id="comet-facepalm" class="step">
+	 <img src="./img/facepalm.png"/>
+ </div>
+ 
+
+  <div id="comet-crossdomain-results" class="step">
+     <h2>Что же выбрать?</h2>
+  	 <ul>
+		 <li> WebSockets </li>
+		 <li> JSONP Long polling </li>
+	 </ul>
+  </div>
+  
+  
+  <div id="nginx-push-stram" class="step">
+    <h2><a href="https://github.com/wandenberg/nginx-push-stream-module">Nginx Push Stream</a></h2>
+	<center>
+		<img src="./img/nginx-pushstream-logo.png" style="width:900px;margin-left:-50px;"/>
+    </center>
+  </div>
+  
+
+  <div id="nps-advantages" class="step">
+	 <h3>Преимущества</h3>
+  	
+	
+	</div>
+
+
+  <div id="horsepower" class="step">
+    <h3>Наш конфиг</h3>
+	<ul>
+		 <li>Host: CentOS6.x64, m2.xlarge  (17.1GB RAM, EBS volume) </li>
+		 <li>Guest: CentOS6.x64, 1-5Gb RAM/10Gb swap, CPU&nbsp;&mdash; всем поровну </li> 
+		 <li>Крутим-вертим: nginx, gunicorn, elastic search, tornado, mongodb, syslog-ng, jenkins, etc. </li> 
+	</ul>
+  </div>
+
+
+  <div id="network-tips" class="step">
+      <h3>Сетевые штуки</h3>
+       <ul>
+	      <li>Сеть внутри HostOS полностью виртуализируется: iptables, routing, etc.  </li>
+	      <li>SOCKS5 proxy&nbsp;&mdash; можно избежать сложного port-forwarding для веб-интерфейсов (jenkins)</li>
+	      <li>Можно сделать полный offline </li>
+	   </ul>
+  </div>
+
+
+  <div id="other-tips" class="step">
+      <h3>Прочие бонусы</h3>
+       <ul>
+	      <li>На VirtualBox повторяется тот же сценарий установки! </li>
+	      <li>Можно подсунуть вашему приложению почти production среду </li>
+	   </ul>
+  </div>
+
+  <div id="ovz-problems" class="step">
+      <h3>Печальки</h3>
+  	<div class="substep" style="font-size:200%;">
+<pre><code><pre>
+***** SERVER RESTARTED *****
+MongoDB starting : pid=474 port=27018 dbpath=/mnt/db/ 64-bit
+
+** WARNING: You are running in OpenVZ. This is known to be broken!!!
+	
+db version v2.0.5, pdfile version 4.5
+git version: 1bb4de4630302fad8af53824ca4f627db490b753
+</pre>
+</code></pre>
+
+    </div>
+  </div>
+
+
+
+  <div id="conclusion" class="step">
+      <h2>Выводы</h2>
+  </div>
+
+ 
+<style>
+#conclusion-p1 table td {border:1px solid white;padding:20px;}
+#conclusion-p1 table {border-collapse:collapse;}
+</style>
+  <div id="conclusion-p1" class="step">
+      <h2>Уменьшение стоимости</h2>
+
+	 <table> 
+		<tr> 
+			<th>ДО</th>
+			<th>ПОСЛЕ </th>
+		</tr>
+		
+		<tr> 
+			<td>~ 3400$ / month </td>
+			<td>~ 980$ / month </td>
+		</tr>
+		
+		<tr>
+			<td> 1 Staging (12 app / 11 db) </td>
+			<td> 7 Vboxes </td>
+		</tr>
+		
+	  </table>
+	
+  </div>
+
+  <div id="conclusion-p2" class="step">
+      <h2>Моделирование production окружения</h2>  
+  </div> 
+
+  <div id="deploy-queue" class="step">
+	 <h3>Очередь на деплой</h3>
+	<img src="./img/queue.jpg" height="550px">
+  </div>
+  
+  <div id="deploy-problems" class="step">
+      <ul>
+	    <li>Каждому&nbsp;&mdash; по своей песочнице</li>
+	    <li>&laquo;Почти&raquo; production среда </li>
+	  </ul>  
+  </div> 
+  
+  <div id="complexity-abstraction" class="step">
+     <h2>Изоляция сложности</h2>
+  </div>
+ 
+  <div id="waltzing-with-bearz" class="step">
+	 <h3>Потанцуем?</h3>
+	 <img src="./img/waltzing_with_bear.png">
+  </div>
+ 
+  
+
+  <div id="thank-you" class="step final">
+    <h2 style="margin-top:-100px;">Вопросы?</h2>
+	<div style="font-size:140%;margin-left:250px;">
+		<p class="name">Andrew Druchenko</p>
+	    <p class="email"><a href="mailto:andrew.druchenko@gmail.com">andrew.druchenko@gmail.com</a></p>
+	    <br/>
+	    <p class="twitter p-a"><a href="https://twitter.com/bananoz"><img src="twitter.png" /> @bananoz</a></p>
+	    <p class="github p-a"><a href="https://github.com/bananos"><img src="github.png" /> github.com/bananos</a></p>
+	    <p><a href="http://webapp.org.ua">webapp.org.ua</a></p>
+    </div>
+
+  </div>
+
+
+  <div id="overview" class="step" data-x="3400" data-y="2000" data-scale="10"></div>
+  <div class="hint"><p>Use a spacebar or arrow keys to navigate</p></div>
+</div>
+	
+<div id="timer"></div>
+
+<script src="./js/highlight.pack.js"></script>
+<script src="./js/impress.js"></script>
+<script src="./js/default.js"></script>
+</body>
+</html>
