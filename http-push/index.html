@@ -328,7 +328,7 @@ ws.onmessage = function(evt) {
   <div id="note-on-ssl" class="step">
 	  <h2>A note on SSL </h2>
 	  <ul>
-		  <li>Self-signed сертификаты не работают</li>
+		  <li>Self-signed сертификаты иногда не работают</li>
 		  <li>SSL &larr;&rarr; non-SSL</li>
 		  <li>CORS ничего не гарантирует</li>
 	  </ul>
@@ -349,7 +349,7 @@ ws.onmessage = function(evt) {
   </div>
   
   
-  <div id="nginx-push-stram" class="step">
+  <div id="nginx-push-stream" class="step">
     <h2><a href="https://github.com/wandenberg/nginx-push-stream-module">Nginx Push Stream</a></h2>
 	<center>
 		<img src="./img/nginx-pushstream-logo.png" style="width:900px;margin-left:-50px;"/>
@@ -358,29 +358,80 @@ ws.onmessage = function(evt) {
   
 
   <div id="nps-advantages" class="step">
-	 <h3>Преимущества</h3>
-  	
-	
-	</div>
-
-
-  <div id="horsepower" class="step">
-    <h3>Наш конфиг</h3>
-	<ul>
-		 <li>Host: CentOS6.x64, m2.xlarge  (17.1GB RAM, EBS volume) </li>
-		 <li>Guest: CentOS6.x64, 1-5Gb RAM/10Gb swap, CPU&nbsp;&mdash; всем поровну </li> 
-		 <li>Крутим-вертим: nginx, gunicorn, elastic search, tornado, mongodb, syslog-ng, jenkins, etc. </li> 
-	</ul>
+	 <h2>Преимущества</h2>
+	 <ul>
+		 <li> Это же nginx! </li>
+		 <li> EventSource, WebSocket, <nobr>&nbsp;&nbsp;&nbsp;Long Polling (+JSONP)</nobr>, Forever Iframe </li>
+		 <li> pushstream.js</li>
+		 <li> Полное решение, все из коробки</li>
+		 <li> Быстро конфигурируется </li>
+	 </ul>
+	 
   </div>
 
 
-  <div id="network-tips" class="step">
-      <h3>Сетевые штуки</h3>
-       <ul>
-	      <li>Сеть внутри HostOS полностью виртуализируется: iptables, routing, etc.  </li>
-	      <li>SOCKS5 proxy&nbsp;&mdash; можно избежать сложного port-forwarding для веб-интерфейсов (jenkins)</li>
-	      <li>Можно сделать полный offline </li>
-	   </ul>
+
+  <!-- 
+  Benchmarks
+  https://groups.google.com/forum/?fromgroups=#!searchin/nginxpushstream/messages$20per$20second/nginxpushstream/DjMKVeRybEI/cwN1_CcdA1kJ
+  
+  1) First test
+  32bit Ubuntu 11.04 
+  4Gb RAM and a old dual core cpu. 
+  push_stream_store_messages off) 
+  shared_memory_size = 800m 
+  push_stream_shared_memory_cleanup_objects_ttl = 30sec
+  
+  10K connections
+  9K messages / per second
+  
+  50K connections
+  6K msg/sec
+  
+  
+  2) all the same:
+  push_stream_shared_memory_cleanup_objects_ttl = 5m
+  50K connections: 9K msg per seconds
+  
+  -->
+
+ 
+
+  <div id="nps-pubsub-example" class="step">
+   <h3>Pub/sub example</h3>
+<pre><code class="bash" style="font-size:140%;width:1200px;margin-left:-200px;">
+# Subscribe
+curl -s -v 'http://localhost/sub/my_channel_1'
+
+# Publish   
+curl -s -v -X POST 'http://localhost/pub?id=my_channel_1' -d 'Hello!'
+
+# Delete Channel
+curl -s -v -X DELETE 'http://localhost/pub?id=my_channel_1'
+	
+# All Channels Stats summarized (json format)
+curl -s -v 'http://localhost/channels-stats'	
+</code></pre>	
+  </div>
+
+
+
+
+  <div id="nps-pushstream-js-example" class="step">
+      <h3>pushstream.js</h3>
+<pre><code class="javascript" style="font-size:140%;width:1200px;margin-left:-200px;">var pushstream = new PushStream({
+   host: window.location.hostname,
+   port: window.location.port,
+   modes: "websocket|eventsource|longpolling|stream"
+ });
+		 
+ pushstream.onmessage = function(text, id, channel) {
+	 // process message
+ };
+ pushstream.addChannel('ch1');
+ pushstream.connect();
+ 
+</code></pre>    
   </div>
 
 
@@ -394,19 +445,7 @@ ws.onmessage = function(evt) {
 
   <div id="ovz-problems" class="step">
       <h3>Печальки</h3>
-  	<div class="substep" style="font-size:200%;">
-<pre><code><pre>
-***** SERVER RESTARTED *****
-MongoDB starting : pid=474 port=27018 dbpath=/mnt/db/ 64-bit
-
-** WARNING: You are running in OpenVZ. This is known to be broken!!!
-	
-db version v2.0.5, pdfile version 4.5
-git version: 1bb4de4630302fad8af53824ca4f627db490b753
-</pre>
-</code></pre>
-
-    </div>
+  	
   </div>
 
 
@@ -416,59 +455,6 @@ git version: 1bb4de4630302fad8af53824ca4f627db490b753
   </div>
 
  
-<style>
-#conclusion-p1 table td {border:1px solid white;padding:20px;}
-#conclusion-p1 table {border-collapse:collapse;}
-</style>
-  <div id="conclusion-p1" class="step">
-      <h2>Уменьшение стоимости</h2>
-
-	 <table> 
-		<tr> 
-			<th>ДО</th>
-			<th>ПОСЛЕ </th>
-		</tr>
-		
-		<tr> 
-			<td>~ 3400$ / month </td>
-			<td>~ 980$ / month </td>
-		</tr>
-		
-		<tr>
-			<td> 1 Staging (12 app / 11 db) </td>
-			<td> 7 Vboxes </td>
-		</tr>
-		
-	  </table>
-	
-  </div>
-
-  <div id="conclusion-p2" class="step">
-      <h2>Моделирование production окружения</h2>  
-  </div> 
-
-  <div id="deploy-queue" class="step">
-	 <h3>Очередь на деплой</h3>
-	<img src="./img/queue.jpg" height="550px">
-  </div>
-  
-  <div id="deploy-problems" class="step">
-      <ul>
-	    <li>Каждому&nbsp;&mdash; по своей песочнице</li>
-	    <li>&laquo;Почти&raquo; production среда </li>
-	  </ul>  
-  </div> 
-  
-  <div id="complexity-abstraction" class="step">
-     <h2>Изоляция сложности</h2>
-  </div>
- 
-  <div id="waltzing-with-bearz" class="step">
-	 <h3>Потанцуем?</h3>
-	 <img src="./img/waltzing_with_bear.png">
-  </div>
- 
-  
 
   <div id="thank-you" class="step final">
     <h2 style="margin-top:-100px;">Вопросы?</h2>

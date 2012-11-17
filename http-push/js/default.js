@@ -39,25 +39,22 @@ impress.steps = {
     "comet-flash-sockets": {
         x: 2800, y: 1000, scale: 4 },
 		
-		
     "note-on-ssl": {
         x: 2200, y: 1650, scale: 1.5 },
     "comet-facepalm": {
         x: 3500, y: 1550, scale: 1.5 },
-    
-
     "comet-crossdomain-results": {
         x: 4900, y: 3800, scale: 1.5 },
-    "nginx-push-stram": {
+		
+    "nginx-push-stream": {
         x: 6200, y: 3800, scale: 1.5 },
     "nps-advantages": {
-        x: 7500, y: 3700, scale: 1.5 },
-    
-	"other-tips": {
+        x: 7500, y: 3700, scale: 1.5 }, 
+	"nps-pubsub-example": {
 	    x: 6200, y: 3800, scale: 1.5 },
-
-    "ovz-problems": {
+    "nps-pushstream-js-example": {
 		    x: 6400, y: 3800, scale: 5 },
+	
 	
     "conclusion": {
 		    x: 6700, y: 3900, scale: 1.5 },
