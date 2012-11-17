@@ -1,6 +1,7 @@
 * { margin: 0; padding: 0; }
 
 body {
+padding: 20px 0 20px 0;
   font: 40px/1.5 'Didact Gothic', Arial, sans-serif;
   min-height: 740px;
   text-shadow: -1px -1px 2px rgba(0, 0, 0,0.5);
