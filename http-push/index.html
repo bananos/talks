@@ -327,10 +327,11 @@ ws.onmessage = function(evt) {
   
   <div id="note-on-ssl" class="step">
 	  <h2>A note on SSL </h2>
+	  <img src="./img/ssl-stamp.png" style="width:300px;float:left;padding-right:10px;"/>
 	  <ul>
-		  <li>Self-signed сертификаты иногда не работают</li>
+		  <li>Self-signed сертификаты &nbsp;&nbsp;&nbsp;иногда не работают</li>
 		  <li>SSL &larr;&rarr; non-SSL</li>
-		  <li>CORS ничего не гарантирует</li>
+		  <li>CORS ничего не &nbsp;&nbsp;&nbsp;гарантирует</li>
 	  </ul>
 	  
   </div>
@@ -435,26 +436,32 @@ curl -s -v 'http://localhost/channels-stats'
   </div>
 
 
-  <div id="other-tips" class="step">
-      <h3>Прочие бонусы</h3>
+  <div id="nps-disadvantages" class="step">
+      <h3>Недостатки</h3>
        <ul>
-	      <li>На VirtualBox повторяется тот же сценарий установки! </li>
-	      <li>Можно подсунуть вашему приложению почти production среду </li>
+	     <li>nginx</li>
+		 <li>отключенный chunked content filter </li>
+		 <li>для вебсокетов&nbsp;&mdash; только hybi(8,13) </li> 
+		 <li>нельзя писать свой код прямо в сервере </li>
+		 <li>отсутствие защищенных каналов для публикации</li> 
 	   </ul>
   </div>
 
-  <div id="ovz-problems" class="step">
-      <h3>Печальки</h3>
-  	
+  <div id="nps-benchmark" class="step">
+      <h3>Как летает в реальных условиях?</h3>
+	  <ul>
+		  <li> 32bit Ubuntu 11.04 </li>
+		  <li> 4Gb RAM and a old dual core CPU</li> 
+		  <li> push_stream_store_messages = off</li> 
+	      <li> shared_memory_size = 800Mb </li> 
+	      <li> shared_memory_cleanup_ttl = 5m </li>
+	  </ul>
+	  <p style="font-size:120%;color: #E28964;">&mdash; 50K connections<br/>&mdash; 9K msg/sec </p>
+	  <p> <a href="https://groups.google.com/forum/?fromgroups=#!searchin/nginxpushstream/messages$20per$20second/nginxpushstream/DjMKVeRybEI/cwN1_CcdA1kJ
+  ">Источник</a> </p>
+	
   </div>
 
-
-
-  <div id="conclusion" class="step">
-      <h2>Выводы</h2>
-  </div>
-
- 
 
   <div id="thank-you" class="step final">
     <h2 style="margin-top:-100px;">Вопросы?</h2>

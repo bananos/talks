@@ -54,14 +54,12 @@ impress.steps = {
 	    x: 6200, y: 3800, scale: 1.5 },
     "nps-pushstream-js-example": {
 		    x: 6400, y: 3800, scale: 5 },
-	
-	
-    "conclusion": {
+    "nps-disadvantages": {
 		    x: 6700, y: 3900, scale: 1.5 },
 	
-    "conclusion-p1": {
+    "nps-benchmark": {
 		    x: 7000, y: 4000, scale: 5 },
-
+			/*
 	"conclusion-p2": {
 		    x: 7300, y: 4100, scale: 1.5 },
 
@@ -76,9 +74,9 @@ impress.steps = {
 	
     "waltzing-with-bearz": {
 		    x: 8500, y: 4500, scale: 1.5 },
-	
+			*/
     "thank-you": {
-        x: 7400, y: 1600, scale: 5 }
+        x: 7300, y: 1600, scale: 5 }
 };
 
 // if (location.pathname.match(/\/3d\/(?:index\.html)?$/)) {
