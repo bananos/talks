@@ -2,8 +2,8 @@
 
 body {
   padding:50px;
-  font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color:#777;
+  font:16px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color:#333;
   font-weight:300;
 }
 
@@ -46,7 +46,7 @@ a small {
 }
 
 .wrapper {
-  width:860px;
+  width:1000px;
   margin:0 auto;
 }
 
@@ -96,9 +96,10 @@ img {
 }
 
 header {
-  width:370px;
+  width:500px;
   float:left;
   position:fixed;
+  /*border:1px solid red;*/
 }
 
 
@@ -110,9 +111,10 @@ strong {
 
 
 section {
-  width:500px;
+  width:450px;
   float:right;
   padding-bottom:50px;
+  /*border:1px solid red;*/
 }
 
 small {
