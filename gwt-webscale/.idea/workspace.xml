@@ -25,7 +25,7 @@
       <file leaf-file-name="index.html" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="212" column="20" selection-start="7985" selection-end="7985" vertical-scroll-proportion="0.79923517">
+            <state line="682" column="52" selection-start="23908" selection-end="23908" vertical-scroll-proportion="-0.5694165">
               <folding />
             </state>
           </provider>
@@ -34,7 +34,7 @@
       <file leaf-file-name="simple.css" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/css/theme/simple.css">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="48" column="18" selection-start="1298" selection-end="1298" vertical-scroll-proportion="-15.576923">
+            <state line="5" column="0" selection-start="278" selection-end="278" vertical-scroll-proportion="-2.8846154">
               <folding />
             </state>
           </provider>
@@ -185,7 +185,7 @@
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15235008" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15721232" sideWeight="0.5" order="1" side_tool="false" content_ui="combo" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
@@ -318,14 +318,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/css/theme/simple.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="48" column="18" selection-start="1298" selection-end="1298" vertical-scroll-proportion="-15.576923">
+        <state line="5" column="0" selection-start="278" selection-end="278" vertical-scroll-proportion="-2.8846154">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="212" column="20" selection-start="7985" selection-end="7985" vertical-scroll-proportion="0.79923517">
+        <state line="682" column="52" selection-start="23908" selection-end="23908" vertical-scroll-proportion="-0.5694165">
           <folding />
         </state>
       </provider>
