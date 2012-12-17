@@ -12,7 +12,7 @@
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 
-		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/simple.css" id="theme">
 
 		<!-- For highlight.js -->
@@ -32,66 +32,6 @@
 	<body>
 
 		<div class="reveal">
-
-			<!--
-
-            http://webapp.org.ua/dev/why-gwt/
-
-			1. Проблема масштабных приложений на javascript
-			   - определение масштабности (~ 150 000 LOC, ~ 1000 классов)
-			   - проблемы яваскрипта как языка
-			   - построение десктопного приложения в браузере
-			   - дебаг (Firebug, IE Dev tools, Chrome developer tools)
-			   - упаковщики/оптимизаторы/обфускаторы UI Compressor, Closure Compiler, JSMin,
-			   - фреймворки / уровни абстракции (jQuery, jQuery UI, YUI Library, SproutCore, Javascript MVC, Cappuccino, PersistenceJS, etc.)
-
-
-            2. Инструменты и решения
-               - Как мы выбирали: матрица критериев
-
-               - обзор существующих фреймворков (Dart)
-                (http://www.infoq.com/research/js-frameworks-compile)
-
-               - Сравнение с тем что было в 2009гг
-                (file://localhost/Users/bananos/Desktop/cs-frameworks-evaluation.html)
-
-               - Серия слайдов "GWT vs. framework X" (накозлить сравнения Лебедевской рекламы в жжешечке)
-
-            3. GWT overview
-              - MVP frameworks (mvp4g) / EventBus
-              - Code-splitting
-              - Модульность
-              - Кросс-браузерность / deffered binding
-              - Оптимизация / обфускация
-              - Декларативные интерфейсы UiBinder
-              - ClientBundle / иньекция css/images/data в документ
-              - Любой 3rd party яваскрипт прикручивается
-              - Дебаггинг - super dev mode, symbol maps
-
-
-            4. Цистерна дёгтя
-              - Dev-mode / тормоза
-              - Все недостатки Java
-              - Многое заточено под явский бэкенд (GWT-RPC, shared модели данных -- идут в трубу)
-              - Не сильно много opensource либ
-              - Пересадить фронт-енда на Яву будет тяжеловато (слайд из HTTP status Cats с котом над ванной воды)
-
-
-            5. Немного наших фактов
-              - Обьем проекта в LOC
-              - Кол-во модулей
-              - Результирующий обьем кода (запакованный/ незапакованный)
-              - График скорости разработки / сложности (Simple made easy)
-              - Кол-во разработчиков
-              - О проблеме незнания явы
-              - О тестах
-
-            6. Выводы
-              - Космолеты vs. Велосипеды
-              - Специфика проекта (startup / enterprise)
-              - Серебрянных пуль нету
-
-			-->
 
 
 			<!-- Any section element inside of this container is displayed as a slide -->
@@ -577,7 +517,7 @@
                         <li><h3>Контакты, Email, Календарь</h3></li>
                     </ul>
 
-                    <img src="imgs/nimble_logo.png" style="300px;"/>
+                    <img src="imgs/nimble_logo.png" style="width:300px;"/>
                 </section>
 
 
@@ -607,10 +547,10 @@
                 </section>
 
                 <section>
-                    <h2>Результирующий обьем кода</h2>
+                    <h2>Объёмы</h2>
 
                     <p>Весь код в 11-ти файлах + 1 bootstrap</p>
-
+                    <br/>
                     <h3>Непакованный</h3>
                     <ul>
                         <li>Дебаг&nbsp;&mdash; 70Mb </li>
@@ -661,12 +601,6 @@
 
             <!-- 6. Выводы -->
 
-            <!-- 6. Выводы
-            - Космолеты vs. Велосипеды
-            - Специфика проекта (startup / enterprise)
-            - Серебрянных пуль нету
--->
-
             <section>
 
                 <section>
@@ -709,7 +643,7 @@
 			// Full list of configuration options available here:
 			// https://github.com/hakimel/reveal.js#configuration
 			Reveal.initialize({
-				controls: false,
+				controls: true,
 				progress: true,
 				history: true,
 				center: true,
